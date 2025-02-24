@@ -14,7 +14,7 @@
                       <v-img height="200px" :src="item.image" ></v-img>
                     
                         <v-card-text> {{item.price  }}</v-card-text>
-                        <v-btn color="black" @click="addToOrder(item)" >Order</v-btn>
+                        <v-btn color="black" @click="removeFromOrder(item)" >Remove</v-btn>
             
                   </v-card>
                 </v-card>
@@ -56,9 +56,10 @@
 </template>
 
   
-    
+   
 
 <script setup>
+import {ref} from  'vue'
 const menuItems = [
     {
         name: "Chips",
@@ -159,17 +160,22 @@ const menuItems = [
     }
 ]
 //manage the current state of the order
-var orderItems = []
-var totalOrderAmount = 0
+var orderItems =ref ([])
+var totalOrderAmount = ref(0)
 
 function calculateTotalAmout(price){
-    totalOrderAmount += price
+    totalOrderAmount.value += price
 }
 
 function addToOrder(item){
-    orderItems.push(item)
+    orderItems.value.push(item)
     calculateTotalAmout(item.price)
 }
 
+function removeFromOrder(item){
+orderItems.value.pop(item)
+totalOrderAmount.value -=item.price
 
+}
 </script>
+ 
